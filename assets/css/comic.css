@@ -177,7 +177,7 @@ body.textmode .reader{display:none}
 .flow li:last-child::after{display:none}
 .flow b{color:#fff;font-size:.98em}
 .flow span{color:#b9c8e8;font-size:.82em;line-height:1.3}
-.vs{width:100%;border-collapse:collapse;font-size:.88em}
+.vs{width:100%;border-collapse:separate;border-spacing:0;font-size:.88em}
 .vs th,.vs td{text-align:left;padding:.45em .55em;border-bottom:1px solid rgba(255,255,255,.12);vertical-align:top}
 .vs th{color:var(--yellow);font-size:.85em;text-transform:uppercase;letter-spacing:.06em}
 .vs td:first-child{color:#fff;font-weight:700}
