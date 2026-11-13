@@ -646,7 +646,7 @@
       if (r > ar) { h = H; w = H * ar; } else { w = W; h = W / ar; }
     }
     stage.style.width = Math.floor(w) + 'px'; stage.style.height = Math.floor(h) + 'px'; stage.style.aspectRatio = 'auto';
-    stage.setAttribute('data-ar', (w / h) < 1.55 ? 'mid' : 'wide');
+    stage.setAttribute('data-ar', s === 'tall' ? 'tall' : ((w / h) < 1.55 ? 'mid' : 'wide'));
     if (s !== shape) { shape = s; stage.setAttribute('data-shape', s); if (cur >= 0) render(M, false); }
   }
   if (window.ResizeObserver) new ResizeObserver(measure).observe(wrapEl); else window.addEventListener('resize', measure);
