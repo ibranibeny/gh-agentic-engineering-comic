@@ -19,8 +19,14 @@
       if (!st.done && !firstOpen) firstOpen = e;
     });
     var btn = document.querySelector('[data-continue]'), note = document.querySelector('[data-resume]');
-    var target = inProg || firstOpen;
-    if (btn && target && (inProg || Object.keys(p).length)) {
+    var ids = eps.map(function (e) { return e.id; }), last = ids.indexOf(p._last), target = null;
+    if (last >= 0) {
+      if (!(p[p._last] || {}).done) target = eps[last];
+      else for (var i = 1; i <= eps.length && !target; i++) { var c = eps[(last + i) % eps.length]; if (!(p[c.id] || {}).done) target = c; }
+    }
+    target = target || inProg || firstOpen;
+    var started = Object.keys(p).some(function (k) { return k.charAt(0) !== '_'; });
+    if (btn && target && started) {
       btn.href = target.id + '.html';
       btn.innerHTML = 'Continue: ' + target.label + ' &#9654;';
       if (note) { note.hidden = false; note.textContent = 'Up next: ' + target.label + ' · ' + target.title; }

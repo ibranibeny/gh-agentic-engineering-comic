@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Walk all episodes</title>
+<style>
+body{margin:0;font:12px/1.4 system-ui,sans-serif;background:#222;color:#eee}
+#log{padding:6px 8px;white-space:pre-wrap;max-height:300px;overflow:auto;background:#111}
+#wrap{position:relative;overflow:hidden;height:calc(100vh - 320px)}
+iframe{border:0;position:absolute;top:0;left:0;transform-origin:0 0;background:#fff}
+</style>
+</head>
+<body>
+<div id="log">starting</div>
+<div id="wrap"></div>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var eps = (q.get('eps') || 's1e1,s1e2,s1e3,s1e4,s1e5,s1e6,s1e7,s1e8,s2e1,s2e2,s2e3,s2e4,s2e5,s2e6,s2e7').split(',');
+  var w = +(q.get('w') || 1280), h = +(q.get('h') || 720), ms = +(q.get('ms') || 70);
+  var logEl = document.getElementById('log'), wrap = document.getElementById('wrap'), out = [];
+  var f = document.createElement('iframe');
+  f.style.width = w + 'px'; f.style.height = h + 'px';
+  var s = Math.min(1, (wrap.clientWidth || 800) / w, (wrap.clientHeight || 400) / h);
+  f.style.transform = 'scale(' + s + ')';
+  wrap.appendChild(f);
+  try { localStorage.removeItem('sid-progress-v1'); } catch (e) {}
+  var i = 0;
+  function within(r, R) { return r.left >= R.left - 2 && r.top >= R.top - 2 && r.right <= R.right + 2 && r.bottom <= R.bottom + 2; }
+  function nextEp() {
+    if (i >= eps.length) { logEl.textContent = 'DONE ' + w + 'x' + h + '\n' + out.join('\n'); try { localStorage.removeItem('sid-progress-v1'); } catch (e) {} return; }
+    var id = eps[i++], errs = [], problems = {}, scrolls = 0;
+    f.onload = function () {
+      var win = f.contentWindow, doc = f.contentDocument;
+      win.addEventListener('error', function (ev) { errs.push(ev.message); });
+      setTimeout(function () {
+        var k = 0;
+        (function step() {
+          var txt = doc.querySelector('.prog-txt'), t = txt ? txt.textContent.trim() : '';
+          var m = /^(\d+) \/ (\d+)$/.exec(t), stage = doc.querySelector('.stage');
+          if (stage) {
+            var R = stage.getBoundingClientRect();
+            ['.bubble', '.card', '.quiz', '.caption', '.place'].forEach(function (sel) {
+              var el = doc.querySelector(sel);
+              if (el && !el.hidden && el.offsetParent !== null) {
+                var r = el.getBoundingClientRect();
+                if (r.width && !within(r, R)) problems[sel + '@' + (m ? m[1] : '?')] = Math.round(r.left - R.left) + ',' + Math.round(r.top - R.top) + ' ' + Math.round(r.width) + 'x' + Math.round(r.height);
+              }
+            });
+            var card = doc.querySelector('.card:not([hidden])');
+            if (card && card.scrollHeight > card.clientHeight + 4) scrolls++;
+          }
+          if (m && m[1] === m[2]) {
+            var pk = Object.keys(problems);
+            out.push(id + ': ' + t + ' keys=' + k + ' errors=' + errs.length + (errs.length ? ' [' + errs.slice(0, 3).join(' | ') + ']' : '') +
+              ' shape=' + (stage && stage.getAttribute('data-shape')) + '/' + (stage && stage.getAttribute('data-ar')) + ' cardScroll=' + scrolls +
+              (pk.length ? ' OUTSIDE: ' + pk.slice(0, 6).map(function (x) { return x + '(' + problems[x] + ')'; }).join(' ; ') : ''));
+            logEl.textContent = out.join('\n');
+            nextEp(); return;
+          }
+          var skip = doc.querySelector('.quiz:not([hidden]) [data-act="skipquiz"]');
+          if (skip) skip.click();
+          doc.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+          k++;
+          if (k > 700) { out.push(id + ': STUCK at ' + t); nextEp(); return; }
+          setTimeout(step, ms);
+        })();
+      }, 900);
+    };
+    f.src = '../' + id + '.html?walk=' + Date.now();
+  }
+  nextEp();
+})();
+</script>
+</body>
+</html>

@@ -149,7 +149,7 @@
     e.f = Math.max(e.f || 0, cur); e.last = cur; e.n = N;
     if (cur === N - 1) e.done = true;
     e.qs = quizState;
-    p[D.id] = e; save(p);
+    p[D.id] = e; p._last = D.id; save(p);
   }
 
   // ------------------------------------------------------------ rendering
