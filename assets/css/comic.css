@@ -147,13 +147,13 @@ body.textmode .reader{display:none}
 .sfx.c-teal{--c:#2dd4bf}.sfx.c-coral{--c:#ff6b5a}.sfx.c-yellow{--c:#ffd23f}.sfx.c-violet{--c:#c4b5fd}.sfx.c-sky{--c:#7dd3fc}
 
 /* concept cards */
-.card,.quiz{position:absolute;z-index:6;left:50%;translate:-50% 0;top:5%;width:min(72%,62em);max-height:66%;overflow:auto;overscroll-behavior:contain;background:linear-gradient(180deg,rgba(9,16,40,.95),rgba(8,14,34,.93));color:#e6f1ff;border:2px solid rgba(94,234,212,.75);border-radius:1em;box-shadow:0 0 0 .3em rgba(45,212,191,.13),0 0 2.4em rgba(45,212,191,.32),0 1.2em 2.4em rgba(0,0,0,.5);padding:.9em 1.25em 1.1em;cursor:default;-webkit-user-select:text;user-select:text;scrollbar-width:thin}
+.card,.quiz{position:absolute;z-index:6;left:50%;translate:-50% 0;top:4%;width:min(74%,62em);max-height:74%;overflow:auto;overscroll-behavior:contain;background:linear-gradient(180deg,rgba(9,16,40,.95),rgba(8,14,34,.93));color:#e6f1ff;border:2px solid rgba(94,234,212,.75);border-radius:1em;box-shadow:0 0 0 .3em rgba(45,212,191,.13),0 0 2.4em rgba(45,212,191,.32),0 1.2em 2.4em rgba(0,0,0,.5);padding:.9em 1.25em 1.1em;cursor:default;-webkit-user-select:text;user-select:text;scrollbar-width:thin}
 .card::before,.quiz::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:repeating-linear-gradient(180deg,rgba(255,255,255,.035) 0 1px,transparent 1px 4px)}
 .card.open,.quiz.open{animation:holo .45s cubic-bezier(.2,.9,.3,1) both}
 .card-k{display:inline-block;font-size:.68em;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#0b1020;background:var(--teal);padding:.15em .6em;border-radius:4px}
 .card.k-screen .card-k{background:var(--yellow)}
 .card.k-code .card-k,.card.k-cmd .card-k{background:var(--violet)}
-.card h2,.quiz h2{margin:.35em 0 .55em;font-size:1.32em;line-height:1.2;color:#fff}
+.card h2,.quiz h2{margin:.3em 0 .5em;font-size:1.28em;line-height:1.2;color:#fff}
 .card h3{margin:0 0 .3em;font-size:1.05em;color:var(--yellow)}
 .card p{margin:.3em 0}
 .card ul{margin:.3em 0;padding-left:1.15em}
@@ -166,11 +166,11 @@ body.textmode .reader{display:none}
 .price .big{font-family:var(--display);font-size:2.2em;font-style:italic;color:var(--teal);margin:.1em 0;line-height:1.1}
 .card .foot,.t-card .foot{margin-top:.7em!important;background:rgba(255,210,63,.1);border-left:4px solid var(--yellow);padding:.45em .75em;border-radius:0 .5em .5em 0}
 .note{color:var(--muted);font-size:.9em}
-.tiles{list-style:none;padding:0!important;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(13em,1fr));gap:.6em}
-.tiles li{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:.6em;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:.7em;padding:.55em .7em}
+.tiles{list-style:none;padding:0!important;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(13em,1fr));gap:.5em}
+.tiles li{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:.6em;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:.7em;padding:.45em .65em}
 .tiles i{grid-row:1 / span 2;font-style:normal;font-size:1.5em;line-height:1.2}
 .tiles b{color:#fff}
-.tiles span{color:#c7d4f0;font-size:.9em;line-height:1.35}
+.tiles span{color:#c7d4f0;font-size:.86em;line-height:1.33}
 .flow{list-style:none;padding:0!important;margin:.2em 0 0;display:flex;flex-wrap:wrap;gap:.5em 1.6em;counter-reset:f}
 .flow li{position:relative;flex:1 1 7.5em;min-width:7.5em;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:.7em;padding:.5em .7em;display:flex;flex-direction:column}
 .flow li::after{content:"\2794";position:absolute;right:-1.35em;top:50%;translate:0 -50%;color:var(--teal);font-size:1em}
@@ -279,7 +279,7 @@ kbd{display:inline-block;min-width:1.8em;text-align:center;padding:1px 6px;borde
 .stage[data-ar="mid"] .bubble.at-L{left:30%;max-width:44%}
 .stage[data-ar="mid"] .bubble.at-R{right:30%;max-width:44%}
 .stage[data-ar="mid"] .bubble.at-B{right:44%;max-width:40%}
-.stage[data-ar="mid"] .card,.stage[data-ar="mid"] .quiz{width:min(84%,62em);max-height:64%}
+.stage[data-ar="mid"] .card,.stage[data-ar="mid"] .quiz{width:min(86%,62em);max-height:72%}
 .stage[data-ar="mid"] .bubble.docked{width:min(86%,60em)}
 
 /* tall stage (phones in portrait) */
