@@ -269,6 +269,7 @@
       cardEl.setAttribute('data-i', m.card.i);
       var kick = { card: 'Maya\u2019s whiteboard', screen: 'Real screenshot', code: 'Code', cmd: 'Copy & paste' }[c.k] || 'Concept';
       if (c.k === 'card' && D.season === 2) kick = 'Mission briefing';
+      if (c.kick) kick = c.kick;
       cardEl.className = 'card k-' + c.k;
       cardEl.innerHTML = '<span class="card-k">' + esc(kick) + '</span><h2>' + esc(c.k === 'screen' ? c.title.replace('Real screenshot · ', 'From the real run · ') : c.title) + '</h2><div class="card-b">' + c.h + '</div>';
       cardEl.hidden = false;
