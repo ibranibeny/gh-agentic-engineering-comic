@@ -250,7 +250,7 @@
     }
     bubble.className = cls;
     bubble.innerHTML = (docked ? '<span class="av" style="' + avStyle(b.w, b.x) + '"></span>' : '') +
-      (b.k === 'shout' ? '<span class="shape"></span>' : '') +
+      (b.k === 'shout' ? '<span class="shape-wrap"><span class="shape"></span></span>' : '') +
       '<span class="who">' + esc(c.name) + '</span><div class="txt">' + b.h + '</div>';
     bubble.hidden = false;
     sr.textContent = c.name + ': ' + strip(b.h);
@@ -632,13 +632,29 @@
         break;
     }
   });
+  var wrapEl = root.querySelector('.stage-wrap');
   function measure() {
-    var w = stage.clientWidth, h = stage.clientHeight;
-    var s = (w / Math.max(1, h)) < 1.05 ? 'tall' : 'wide';
+    var cs = getComputedStyle(wrapEl);
+    var W = wrapEl.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    var H = wrapEl.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    if (W < 40 || H < 40) return;
+    var r = W / H, w, h, s;
+    if (r < 1) { s = 'tall'; w = W; h = H; }
+    else {
+      s = 'wide';
+      var ar = Math.max(4 / 3, Math.min(16 / 9, r));
+      if (r > ar) { h = H; w = H * ar; } else { w = W; h = W / ar; }
+    }
+    stage.style.width = Math.floor(w) + 'px'; stage.style.height = Math.floor(h) + 'px'; stage.style.aspectRatio = 'auto';
+    stage.setAttribute('data-ar', (w / h) < 1.55 ? 'mid' : 'wide');
     if (s !== shape) { shape = s; stage.setAttribute('data-shape', s); if (cur >= 0) render(M, false); }
   }
-  if (window.ResizeObserver) new ResizeObserver(measure).observe(stage); else window.addEventListener('resize', measure);
+  if (window.ResizeObserver) new ResizeObserver(measure).observe(wrapEl); else window.addEventListener('resize', measure);
   stage.setAttribute('data-shape', shape); measure();
+  window.addEventListener('hashchange', function () {
+    var mm = /^#p(\d+)$/.exec(location.hash);
+    if (mm) { var k = Math.max(0, Math.min(N - 1, (+mm[1]) - 1)); if (k !== cur) go(k, false); }
+  });
 
   // ------------------------------------------------------------ start
   var start = 0, m = /^#p(\d+)$/.exec(location.hash);
